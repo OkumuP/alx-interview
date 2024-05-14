@@ -3,26 +3,22 @@
 Lock boxes solution
 """
 
+
 def canUnlockAll(boxes):
-    # Set to track visited boxes
-    visited = set()
+    """
+    Lockbox being opened by a key
+    """
+    if (type(boxes)) is not list:
+        return False
+    elif (len(boxes)) == 0:
+        return False
 
-    # Queue for BFS traversal
-    queue = deque([0])
-
-    # Mark the first box as visited
-    visited.add(0)
-
-    # BFS traversal
-    while queue:
-        current_box = queue.popleft()
-
-        # Check all keys in the current box
-        for key in boxes[current_box]:
-            # If the key opens a box we haven't visited yet, visit it
-            if key < len(boxes) and key not in visited:
-                visited.add(key)
-                queue.append(key)
-
-    # If we visited all boxes, return True, otherwise return False
-    return len(visited) == len(boxes)
+    for k in range(1, len(boxes) - 1):
+        boxes_checked = False
+        for idx in range(len(boxes)):
+            boxes_checked = k in boxes[idx] and k != idx
+            if boxes_checked:
+                break
+        if boxes_checked is False:
+            return boxes_checked
+    return True
