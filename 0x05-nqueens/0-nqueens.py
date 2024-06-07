@@ -1,12 +1,5 @@
-i#!/usr/bin/python3
-"""
-N Queens Problem
-- Approach: Backtracking
-    
-"""
-
+#!/usr/bin/python3
 import sys
-
 
 def n_queens(n):
     """ Solve the N queens problem """
@@ -27,14 +20,12 @@ def n_queens(n):
             negative_diag.add(row - col)
             queens.append([row, col])
             backtrack(row + 1, n, queens)
-
             cols.remove(col)
             positive_diag.remove(row + col)
             negative_diag.remove(row - col)
             queens.pop()
     backtrack(0, n, queens)
     return res
-
 
 def check_args(n):
     """ Validate the input argument """
@@ -44,7 +35,6 @@ def check_args(n):
     if int(n) < 4:
         print("N must be at least 4")
         exit(1)
-
 
 def main():
     """ Entry point of the program """
@@ -58,7 +48,5 @@ def main():
     for solution in solutions:
         print(solution)
 
-
 if __name__ == "__main__":
     main()
-
