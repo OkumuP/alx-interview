@@ -1,52 +1,49 @@
 #!/usr/bin/python3
-import sys
+""" N queens puzzle
+This program solves the N queens challenge """
 
-def n_queens(n):
-    """ Solve the N queens problem """
-    queens, res = [], []
-    cols, positive_diag, negative_diag = set(), set(), set()
+from sys import argv
 
-    def backtrack(row, n, queens):
-        """ Recursive backtracking function """
-        if row == n:
-            res.append(queens[:])
-            return
-        for col in range(n):
-            if (col in cols or row + col in positive_diag or
-                    row - col in negative_diag):
-                continue
-            cols.add(col)
-            positive_diag.add(row + col)
-            negative_diag.add(row - col)
-            queens.append([row, col])
-            backtrack(row + 1, n, queens)
-            cols.remove(col)
-            positive_diag.remove(row + col)
-            negative_diag.remove(row - col)
-            queens.pop()
-    backtrack(0, n, queens)
-    return res
 
-def check_args(n):
-    """ Validate the input argument """
-    if not n.isdigit():
-        print("N must be a number")
-        exit(1)
-    if int(n) < 4:
-        print("N must be at least 4")
-        exit(1)
+def is_NQueen(cell: list) -> bool:
+    """ False if not N Queen, otherwise  True """
+    row_number = len(cell) - 1
+    difference = 0
+    for index in range(0, row_number):
+        difference = cell[index] - cell[row_number]
+        if difference < 0:
+            difference *= -1
+        if difference == 0 or difference == row_number - index:
+            return False
+    return True
 
-def main():
-    """ Entry point of the program """
-    args = sys.argv
-    if len(args) != 2:
-        print("Usage: nqueens N")
-        exit(1)
-    n = args[1]
-    check_args(n)
-    solutions = n_queens(int(n))
-    for solution in solutions:
-        print(solution)
 
-if __name__ == "__main__":
-    main()
+def solve_NQueens(dimension: int, row: int, cell: list, output: list):
+    """ Recursively return result of n queens """
+    if row == dimension:
+        print(output)
+    else:
+        for column in range(0, dimension):
+            cell.append(column)
+            output.append([row, column])
+            if (is_NQueen(cell)):
+                solve_NQueens(dimension, row + 1, cell, output)
+            cell.pop()
+            output.pop()
+
+
+if len(argv) != 2:
+    print('Usage: nqueens N')
+    exit(1)
+try:
+    N = int(argv[1])
+except BaseException:
+    print('N must be a number')
+    exit(1)
+if N < 4:
+    print('N must be at least 4')
+    exit(1)
+else:
+    output = []
+    cell = 0
+    solve_NQueens(int(N), cell, [], output)
